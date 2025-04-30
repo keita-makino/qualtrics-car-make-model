@@ -1,0 +1,8 @@
+node_modules
+dist/index.html
+public/index.dev.html
+public/index.dev.en.html
+public/index.dev.es.html
+configuration
+webpack.dev.js
+.vscode
