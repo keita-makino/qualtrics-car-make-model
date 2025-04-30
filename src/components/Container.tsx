@@ -15,7 +15,6 @@ export const Container: React.FC<Props> = (props) => {
   const [makeOptions, setMakeOptions] = React.useState<string[]>([]);
   const update = useGlobalStateUpdateContext();
 
-  // Fetching car makes from the API only one time
   useEffect(() => {
     axios
       .get(
@@ -33,11 +32,6 @@ export const Container: React.FC<Props> = (props) => {
           )
         );
       });
-
-    // update({
-    //   type: 'ADD_MAKEOPTIONS',
-    //   makeOptions: makeOptions.data.Results.map((item: any) => item.Make_Name),
-    // });
   }, []);
 
   const inputHTMLElements = [
@@ -51,7 +45,6 @@ export const Container: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if ([...inputHTMLElements].length > 0 && makeOptions.length > 0) {
-      console.log([...inputHTMLElements]);
       update({
         type: 'ADD_INPUTS',
         inputs: inputHTMLElements,
@@ -68,8 +61,12 @@ export const Container: React.FC<Props> = (props) => {
     }
   }, []);
 
+  [...props.directionContainer.getElementsByTagName('tr')].forEach((item) => {
+    item.style.display = 'none';
+  });
+
   return (
-    <Grid container spacing={1} sx={{ width: '100%' }}>
+    <Grid container spacing={1} sx={{ width: '100%', padding: '2rem 0' }}>
       <Example />
       {inputHTMLElements.length > 0
         ? [...inputHTMLElements].map((item, index) => (

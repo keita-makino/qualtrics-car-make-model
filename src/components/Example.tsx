@@ -59,8 +59,16 @@ export const Example = () => {
           </Select>
         </FormControl>
       </Grid>
-      <Grid size={{ xs: 12, md: 'grow' }}>
-        <TextField label="Annual Mileage" disabled value="12000" fullWidth />
+      <Grid size={{ xs: 12, md: 'grow' }} sx={{ height: '100%' }}>
+        <TextField
+          label="Annual Mileage"
+          disabled
+          value="12000"
+          fullWidth
+          sx={{
+            height: '100%',
+          }}
+        />
       </Grid>
     </Grid>
   );
