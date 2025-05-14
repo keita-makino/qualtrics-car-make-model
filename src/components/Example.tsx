@@ -23,52 +23,64 @@ export const Example = () => {
           display: { xs: 'none', md: 'flex' },
         }}
       />
-      <Grid size={{ xs: 12, md: 'grow' }}>
-        <Autocomplete
-          disabled
-          value={'HONDA'}
-          renderInput={(params) => (
-            <TextField {...params} label="Model" variant="outlined" />
-          )}
-          options={[]}
-        />
-      </Grid>
-      <Grid size={{ xs: 12, md: 'grow' }}>
-        <Autocomplete
-          disabled
-          value={'CIVIC'}
-          renderInput={(params) => (
-            <TextField {...params} label="Model" variant="outlined" />
-          )}
-          options={[]}
-        />
-      </Grid>
-      <Grid size={{ xs: 12, md: 'grow' }}>
-        <FormControl fullWidth disabled>
-          <InputLabel>Model Year</InputLabel>
-          <Select label="Model Year" value="2015">
-            <MenuItem value={2015}>2015</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid size={{ xs: 12, md: 'grow' }}>
-        <FormControl fullWidth disabled>
-          <InputLabel>Purchase Year</InputLabel>
-          <Select label="Purchase Year" value="2020">
-            <MenuItem value={2020}>2020</MenuItem>
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid size={{ xs: 12, md: 'grow' }} sx={{ height: '100%' }}>
-        <TextField
-          label="Annual Mileage"
-          disabled
-          value="12000"
-          fullWidth
-          sx={{
-            height: '100%',
-          }}
-        />
+      <Grid container size={{ xs: 12, md: 'grow' }}>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <Autocomplete
+            disabled
+            value={'HONDA'}
+            renderInput={(params) => (
+              <TextField {...params} label="Model" variant="outlined" />
+            )}
+            options={[]}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <Autocomplete
+            disabled
+            value={'CIVIC'}
+            renderInput={(params) => (
+              <TextField {...params} label="Model" variant="outlined" />
+            )}
+            options={[]}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <FormControl fullWidth disabled>
+            <InputLabel>Model Year</InputLabel>
+            <Select label="Model Year" value="2015">
+              <MenuItem value={2015}>2015</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <FormControl fullWidth disabled>
+            <InputLabel>Purchase Year</InputLabel>
+            <Select label="Purchase Year" value="2020">
+              <MenuItem value={2020}>2020</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid size={{ xs: 12, md: 4 }}>
+          <Autocomplete
+            disabled
+            value={'Gasoline'}
+            renderInput={(params) => (
+              <TextField {...params} label="Fuel Type" variant="outlined" />
+            )}
+            options={[]}
+          />
+        </Grid>
+        <Grid size={{ xs: 12, md: 4 }} sx={{ height: '100%' }}>
+          <TextField
+            label="Annual Mileage"
+            disabled
+            value="12000"
+            fullWidth
+            sx={{
+              height: '100%',
+            }}
+          />
+        </Grid>
       </Grid>
     </Grid>
   );

@@ -28,6 +28,7 @@ export const InputForm: React.FC<Props> = (props) => {
         modelSelected: state.modelSelected,
         modelYear: state.modelYear,
         purchaseYear: state.purchaseYear,
+        fuelSelected: state.fuelSelected,
         mileage: state.mileage,
       });
     }
@@ -51,10 +52,13 @@ export const InputForm: React.FC<Props> = (props) => {
             display: { xs: 'none', md: 'flex' },
           }}
         />
-        <MakeSelector index={props.index} />
-        <ModelSelector index={props.index} />
-        <YearSelector index={props.index} />
-        <MileageInput index={props.index} />
+        <Grid container size={{ xs: 12, md: 'grow' }}>
+          <MakeSelector index={props.index} />
+          <ModelSelector index={props.index} />
+          <YearSelector index={props.index} />
+          <FuelSelector index={props.index} />
+          <MileageInput index={props.index} />
+        </Grid>
       </Grid>
     </>
   ) : null;
@@ -65,7 +69,7 @@ const MakeSelector = (props: { index: number }) => {
   const update = useGlobalStateUpdateContext();
 
   return (
-    <Grid size={{ xs: 12, md: 'grow' }}>
+    <Grid size={{ xs: 12, md: 4 }}>
       <Autocomplete
         sx={{ width: '100%' }}
         freeSolo
@@ -96,11 +100,11 @@ const ModelSelector = (props: { index: number }) => {
     if (state.makeSelected) {
       axios
         .get(
-          `https://vpic.nhtsa.dot.gov/api//vehicles/GetModelsForMake/${state.makeSelected}?format=json`
+          `https://vpic.nhtsa.dot.gov/api//vehicles/GetModelsForMake/${state.makeSelected}?format=json`,
         )
         .then((response) => {
           const modelOptions = response.data.Results.map(
-            (item: any) => item.Model_Name
+            (item: any) => item.Model_Name,
           ).sort((a: string, b: string) => a.localeCompare(b));
           update({
             type: 'SET_MODEL_OPTIONS',
@@ -112,7 +116,7 @@ const ModelSelector = (props: { index: number }) => {
   }, [state.makeSelected]);
 
   return (
-    <Grid size={{ xs: 12, md: 'grow' }}>
+    <Grid size={{ xs: 12, md: 4 }}>
       <Autocomplete
         sx={{ width: '100%' }}
         freeSolo
@@ -122,7 +126,7 @@ const ModelSelector = (props: { index: number }) => {
         renderInput={(params) => (
           <TextField
             {...params}
-            label={state.makeSelected ? 'Model' : 'Select Make First'}
+            label={state.makeSelected ? 'Model' : 'Select Make'}
             variant="outlined"
           />
         )}
@@ -166,7 +170,7 @@ const YearSelector = (props: { index: number }) => {
 
   return (
     <>
-      <Grid size={{ xs: 12, md: 'grow' }}>
+      <Grid size={{ xs: 12, md: 4 }}>
         <FormControl fullWidth disabled={!state.modelSelected}>
           <InputLabel
             sx={{
@@ -174,7 +178,7 @@ const YearSelector = (props: { index: number }) => {
               padding: state.modelYear ? '0 0.25rem' : undefined,
             }}
           >
-            {state.modelSelected ? 'Model Year' : 'Select Model First'}
+            {state.modelSelected ? 'Model Year' : 'Select Model'}
           </InputLabel>
           <Select
             value={state.modelYear?.toString() || ''}
@@ -195,7 +199,7 @@ const YearSelector = (props: { index: number }) => {
           </Select>
         </FormControl>
       </Grid>
-      <Grid size={{ xs: 12, md: 'grow' }}>
+      <Grid size={{ xs: 12, md: 4 }}>
         <FormControl fullWidth disabled={!state.modelYear}>
           <InputLabel
             sx={{
@@ -203,7 +207,7 @@ const YearSelector = (props: { index: number }) => {
               padding: state.purchaseYear ? '0 0.25rem' : undefined,
             }}
           >
-            {state.modelYear ? 'Purchase Year' : 'Select Model Year First'}
+            {state.modelYear ? 'Purchase Year' : 'Select Model Year'}
           </InputLabel>
           <Select
             value={state.purchaseYear?.toString() || ''}
@@ -219,7 +223,7 @@ const YearSelector = (props: { index: number }) => {
             {options
               .filter(
                 (year) =>
-                  year === undefined || Number(year) >= state.modelYear! - 1
+                  year === undefined || Number(year) >= state.modelYear! - 1,
               )
               .map((year) => (
                 <MenuItem key={year} value={year}>
@@ -233,20 +237,61 @@ const YearSelector = (props: { index: number }) => {
   );
 };
 
+const FuelSelector = (props: { index: number }) => {
+  const state = useInputState(props.index);
+  const update = useGlobalStateUpdateContext();
+
+  const options = [
+    'Gasoline/Diesel',
+    'Gasoline hybrid',
+    'Plug-in hybrid',
+    'Battery electric',
+    'Hydrogen fuel cell',
+  ];
+
+  return (
+    <>
+      <Grid size={{ xs: 12, md: 4 }}>
+        <Autocomplete
+          sx={{ width: '100%' }}
+          disabled={!state.purchaseYear}
+          freeSolo
+          value={state.fuelSelected || ''}
+          options={options}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label={state.purchaseYear ? 'Fuel Type' : 'Select Purchase Year'}
+              variant="outlined"
+            />
+          )}
+          onInputChange={(_, value) => {
+            update({
+              type: 'SET_INPUT_VALUE',
+              index: props.index,
+              property: 'fuelSelected',
+              value: value,
+            });
+          }}
+          fullWidth
+        />
+      </Grid>
+    </>
+  );
+};
+
 const MileageInput = (props: { index: number }) => {
   const state = useInputState(props.index);
   const update = useGlobalStateUpdateContext();
 
   return (
-    <Grid size={{ xs: 12, md: 'grow' }}>
+    <Grid size={{ xs: 12, md: 4 }}>
       <TextField
         sx={{ width: '100%' }}
-        label={
-          state.purchaseYear ? 'Annual Mileage' : 'Select Purchase Year First'
-        }
+        label={state.fuelSelected ? 'Annual Mileage' : 'Select Fuel Type'}
         type="number"
         value={state.mileage || ''}
-        disabled={!state.purchaseYear}
+        disabled={!state.fuelSelected}
         onChange={(e) => {
           update({
             type: 'SET_INPUT_VALUE',

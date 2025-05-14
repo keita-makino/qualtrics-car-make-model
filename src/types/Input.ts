@@ -5,6 +5,7 @@ export type Input = {
   makeSelected?: string;
   modelOptions: string[];
   modelSelected?: string;
+  fuelSelected?: string;
   modelYear?: number;
   purchaseYear?: number;
   mileage?: number;

@@ -23,13 +23,13 @@ export const Container: React.FC<Props> = (props) => {
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       )
       .then((response) => {
         setMakeOptions(
           response.data.Results.map((item: any) => item.MakeName).sort(
-            (a: string, b: string) => a.localeCompare(b)
-          )
+            (a: string, b: string) => a.localeCompare(b),
+          ),
         );
       });
   }, []);
@@ -66,7 +66,7 @@ export const Container: React.FC<Props> = (props) => {
   });
 
   return (
-    <Grid container spacing={1} sx={{ width: '100%', padding: '2rem 0' }}>
+    <Grid container spacing={2} sx={{ width: '100%', padding: '2rem 0' }}>
       <Example />
       {inputHTMLElements.length > 0
         ? [...inputHTMLElements].map((item, index) => (

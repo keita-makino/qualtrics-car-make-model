@@ -33,6 +33,7 @@ export type Action =
       property:
         | 'makeSelected'
         | 'modelSelected'
+        | 'fuelSelected'
         | 'modelYear'
         | 'purchaseYear'
         | 'mileage';
@@ -64,7 +65,7 @@ export const reducer = (state: GlobalState, action: Action): GlobalState => {
                 ...item,
                 [action.property]: action.value,
               }
-            : item
+            : item,
         ),
       };
     case 'SET_MODEL_OPTIONS':
@@ -76,7 +77,7 @@ export const reducer = (state: GlobalState, action: Action): GlobalState => {
                 ...item,
                 modelOptions: action.value,
               }
-            : item
+            : item,
         ),
       };
     case 'SET_LANGUAGE':
@@ -91,7 +92,7 @@ export const reducer = (state: GlobalState, action: Action): GlobalState => {
 
 export const GlobalStateContext = createContext({} as GlobalState);
 export const GlobalStateUpdateContext = createContext(
-  {} as React.Dispatch<Action>
+  {} as React.Dispatch<Action>,
 );
 
 export const useGlobalContext = () => useContext(GlobalStateContext);
