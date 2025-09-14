@@ -152,7 +152,7 @@ const YearSelector = (props: { index: number }) => {
     undefined,
     ...Array(100)
       .fill(0)
-      .map((_, i) => (2025 - i).toString()),
+      .map((_, i) => (2026 - i).toString()),
   ];
 
   useEffect(() => {
