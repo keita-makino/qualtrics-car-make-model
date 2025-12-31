@@ -13,13 +13,14 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useGlobalStateUpdateContext } from '../store';
 import { useInputState } from '../store/useInputState';
+import { getLabels } from '../utils/getLabel';
 
 type Props = {
   index: number;
 };
 
 export const InputForm: React.FC<Props> = (props) => {
-  const state = useInputState(props.index);
+  const { state } = useInputState(props.index);
 
   useEffect(() => {
     if (state?.htmlElement) {
@@ -65,8 +66,9 @@ export const InputForm: React.FC<Props> = (props) => {
 };
 
 const MakeSelector = (props: { index: number }) => {
-  const state = useInputState(props.index);
+  const { state, language } = useInputState(props.index);
   const update = useGlobalStateUpdateContext();
+  const labels = getLabels(language);
 
   return (
     <Grid size={{ xs: 12, md: 4 }}>
@@ -76,7 +78,7 @@ const MakeSelector = (props: { index: number }) => {
         value={state.makeSelected || ''}
         options={state.makeOptions}
         renderInput={(params) => (
-          <TextField {...params} label="Make" variant="outlined" />
+          <TextField {...params} label={labels.make} variant="outlined" />
         )}
         onInputChange={(_, value) => {
           update({
@@ -93,8 +95,9 @@ const MakeSelector = (props: { index: number }) => {
 };
 
 const ModelSelector = (props: { index: number }) => {
-  const state = useInputState(props.index);
+  const { state, language } = useInputState(props.index);
   const update = useGlobalStateUpdateContext();
+  const labels = getLabels(language);
 
   useEffect(() => {
     if (state.makeSelected) {
@@ -126,7 +129,7 @@ const ModelSelector = (props: { index: number }) => {
         renderInput={(params) => (
           <TextField
             {...params}
-            label={state.makeSelected ? 'Model' : 'Select Make'}
+            label={state.makeSelected ? labels.model : labels.selectMake}
             variant="outlined"
           />
         )}
@@ -145,8 +148,9 @@ const ModelSelector = (props: { index: number }) => {
 };
 
 const YearSelector = (props: { index: number }) => {
-  const state = useInputState(props.index);
+  const { state, language } = useInputState(props.index);
   const update = useGlobalStateUpdateContext();
+  const labels = getLabels(language);
 
   const options = [
     undefined,
@@ -178,7 +182,7 @@ const YearSelector = (props: { index: number }) => {
               padding: state.modelYear ? '0 0.25rem' : undefined,
             }}
           >
-            {state.modelSelected ? 'Model Year' : 'Select Model'}
+            {state.modelSelected ? labels.modelYear : labels.selectModelYear}
           </InputLabel>
           <Select
             value={state.modelYear?.toString() || ''}
@@ -207,7 +211,7 @@ const YearSelector = (props: { index: number }) => {
               padding: state.purchaseYear ? '0 0.25rem' : undefined,
             }}
           >
-            {state.modelYear ? 'Purchase Year' : 'Select Model Year'}
+            {state.modelYear ? labels.purchaseYear : labels.selectModelYear}
           </InputLabel>
           <Select
             value={state.purchaseYear?.toString() || ''}
@@ -238,8 +242,9 @@ const YearSelector = (props: { index: number }) => {
 };
 
 const FuelSelector = (props: { index: number }) => {
-  const state = useInputState(props.index);
+  const { state, language } = useInputState(props.index);
   const update = useGlobalStateUpdateContext();
+  const labels = getLabels(language);
 
   const options = [
     'Gasoline/Diesel',
@@ -261,7 +266,9 @@ const FuelSelector = (props: { index: number }) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              label={state.purchaseYear ? 'Fuel Type' : 'Select Purchase Year'}
+              label={
+                state.purchaseYear ? labels.fuelType : labels.selectPurchaseYear
+              }
               variant="outlined"
             />
           )}
@@ -281,14 +288,17 @@ const FuelSelector = (props: { index: number }) => {
 };
 
 const MileageInput = (props: { index: number }) => {
-  const state = useInputState(props.index);
+  const { state, language } = useInputState(props.index);
   const update = useGlobalStateUpdateContext();
+  const labels = getLabels(language);
 
   return (
     <Grid size={{ xs: 12, md: 4 }}>
       <TextField
         sx={{ width: '100%' }}
-        label={state.fuelSelected ? 'Annual Mileage' : 'Select Fuel Type'}
+        label={
+          state.fuelSelected ? labels.annualMileage : labels.selectFuelType
+        }
         type="number"
         value={state.mileage || ''}
         disabled={!state.fuelSelected}

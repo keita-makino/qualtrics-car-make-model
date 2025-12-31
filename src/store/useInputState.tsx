@@ -3,5 +3,5 @@ import { useGlobalContext } from '.';
 export const useInputState = (index: number) => {
   const state = useGlobalContext();
 
-  return state.inputs[index];
+  return { state: state.inputs[index], language: state.language };
 };
