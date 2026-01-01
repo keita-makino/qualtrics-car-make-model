@@ -21,7 +21,7 @@ export const Example = () => {
   return (
     <Grid container spacing={1} sx={{ width: '100%' }} alignItems="center">
       <Grid size="auto" sx={{ width: '6rem' }}>
-        <Typography variant="h6">Example</Typography>
+        <Typography variant="h6">{labels.example}</Typography>
       </Grid>
       <Divider
         orientation="vertical"

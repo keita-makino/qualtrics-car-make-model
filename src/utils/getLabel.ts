@@ -1,5 +1,6 @@
 type Language = 'EN' | 'ES' | 'JA';
 type LabelKey =
+  | 'example'
   | 'make'
   | 'model'
   | 'modelYear'
@@ -15,6 +16,7 @@ type LabelKey =
 export const getLabels = (language: Language): Record<LabelKey, string> => {
   const labels: Record<Language, Record<LabelKey, string>> = {
     EN: {
+      example: 'Example',
       make: 'Make',
       model: 'Model',
       modelYear: 'Model Year',
@@ -28,6 +30,7 @@ export const getLabels = (language: Language): Record<LabelKey, string> => {
       selectFuelType: 'Select Fuel Type',
     },
     ES: {
+      example: 'Ejemplo',
       make: 'Marca',
       model: 'Modelo',
       modelYear: 'Año del Modelo',
@@ -41,6 +44,7 @@ export const getLabels = (language: Language): Record<LabelKey, string> => {
       selectFuelType: 'Seleccionar Tipo de Combustible',
     },
     JA: {
+      example: '例',
       make: 'メーカー',
       model: 'モデル',
       modelYear: 'モデル年',
