@@ -182,7 +182,7 @@ const YearSelector = (props: { index: number }) => {
               padding: state.modelYear ? '0 0.25rem' : undefined,
             }}
           >
-            {state.modelSelected ? labels.modelYear : labels.selectModelYear}
+            {state.modelSelected ? labels.modelYear : labels.selectModel}
           </InputLabel>
           <Select
             value={state.modelYear?.toString() || ''}
