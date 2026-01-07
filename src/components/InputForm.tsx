@@ -13,6 +13,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useGlobalStateUpdateContext } from '../store';
 import { useInputState } from '../store/useInputState';
+import { getFuelOptions } from '../utils/getFuelOptions';
 import { getLabels } from '../utils/getLabel';
 
 type Props = {
@@ -245,43 +246,38 @@ const FuelSelector = (props: { index: number }) => {
   const { state, language } = useInputState(props.index);
   const update = useGlobalStateUpdateContext();
   const labels = getLabels(language);
-
-  const options = [
-    'Gasoline/Diesel',
-    'Gasoline hybrid',
-    'Plug-in hybrid',
-    'Battery electric',
-    'Hydrogen fuel cell',
-  ];
+  const options = getFuelOptions(language);
 
   return (
     <>
       <Grid size={{ xs: 12, md: 4 }}>
-        <Autocomplete
-          sx={{ width: '100%' }}
-          disabled={!state.purchaseYear}
-          freeSolo
-          value={state.fuelSelected || ''}
-          options={options}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={
-                state.purchaseYear ? labels.fuelType : labels.selectPurchaseYear
-              }
-              variant="outlined"
-            />
-          )}
-          onInputChange={(_, value) => {
-            update({
-              type: 'SET_INPUT_VALUE',
-              index: props.index,
-              property: 'fuelSelected',
-              value: value,
-            });
-          }}
-          fullWidth
-        />
+        <FormControl fullWidth disabled={!state.purchaseYear}>
+          <InputLabel
+            sx={{
+              backgroundColor: (theme) => theme.palette.background.paper,
+              padding: state.fuelSelected ? '0 0.25rem' : undefined,
+            }}
+          >
+            {state.purchaseYear ? labels.fuelType : labels.selectPurchaseYear}
+          </InputLabel>
+          <Select
+            value={state.fuelSelected || ''}
+            onChange={(e) => {
+              update({
+                type: 'SET_INPUT_VALUE',
+                index: props.index,
+                property: 'fuelSelected',
+                value: e.target.value,
+              });
+            }}
+          >
+            {Object.entries(options).map((option) => (
+              <MenuItem key={option[0]} value={option[0]}>
+                {option[1]}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Grid>
     </>
   );

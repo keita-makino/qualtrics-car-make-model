@@ -15,6 +15,7 @@ export const DebugPanel = () => {
           modelSelected: item.modelSelected,
           modelYear: item.modelYear,
           purchaseYear: item.purchaseYear,
+          fuelSelected: item.fuelSelected,
           mileage: item.mileage,
         })),
         isMobile: state.isMobile,
